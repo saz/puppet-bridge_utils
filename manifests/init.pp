@@ -40,6 +40,15 @@ class bridge_utils(
   $package = $bridge_utils::params::package
 ) inherits bridge_utils::params {
 
+  if $ensure == 'present' {
+    $package_ensure = $autoupgrade ? {
+      true    => 'latest',
+      default => 'installed',
+    }
+  } else {
+    $package_ensure = 'absent'
+  }
+
   package { $package:
     ensure => $package_ensure,
   }
